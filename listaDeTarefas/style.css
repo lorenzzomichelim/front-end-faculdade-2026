@@ -39,14 +39,13 @@ li {
 li span {
     width: 100%;
     text-align: left;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 
 .button-group {
     display: flex;
-    gap: 5px;
     flex-direction: row;
-    flex-wrap: nowrap;
+    gap: 10px;
 }
 
 li.completed span {
@@ -55,8 +54,9 @@ li.completed span {
 
 button {
     background-color: #f6f2f2;
-    padding: 4px 10px;
+    padding: 5px 12px;
     border: 1px solid #ccc;
     border-radius: 4px;
     cursor: pointer;
+    margin: 0;
 }
