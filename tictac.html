@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jogo da Velha</title>
+  
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      margin-top: 50px;
+      font-family: sans-serif;
+      background-color: #f4f4f9;
+    }
+
+    .painel-status {
+      margin-bottom: 15px;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .linha-tabuleiro {
+      clear: both;
+      content: "";
+      display: table;
+    }
+
+    .quadrante {
+      background: #fff;
+      border: 2px solid #666;
+      float: left;
+      font-size: 42px;
+      font-weight: bold;
+      width: 85px;
+      height: 85px;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.2s;
+    }
+
+    .quadrante:hover {
+      background: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="app"></div>
+
+  <script type="module">
+    import React, { StrictMode, useState } from "https://esm.sh/react";
+    import { createRoot } from "https://esm.sh/react-dom/client";
+
+    // Componente menor para cada botão do tabuleiro
+    function BotaoTabuleiro({ conteudo, aoClicar }) {
+      return (
+        <button className="quadrante" onClick={aoClicar}>
+          {conteudo}
+        </button>
+      );
+    }
+
+    // Componente principal do jogo
+    function JogoDaVelha() {
+      const [turnoX, setTurnoX] = useState(true);
+      const [casas, setCasas] = useState(Array(9).fill(null));
+
+      const vencedor = checarVencedor(casas);
+
+      function gerenciarClique(posicao) {
+        // Se já houver um vencedor ou a casa já estiver ocupada, não faz nada
+        if (vencedor || casas[posicao]) {
+          return;
+        }
+
+        const novasCasas = casas.slice();
+        novasCasas[posicao] = turnoX ? "X" : "O";
+
+        setCasas(novasCasas);
+        setTurnoX(!turnoX);
+      }
+
+      // Define a mensagem que aparece acima do tabuleiro
+      let mensagemStatus;
+      if (vencedor) {
+        mensagemStatus = `Ganhador: ${vencedor}`;
+      } else if (!casas.includes(null)) {
+        mensagemStatus = "Empate!";
+      } else {
+        mensagemStatus = `Vez do jogador: ${turnoX ? "X" : "O"}`;
+      }
+
+      return (
+        <>
+          <div className="painel-status">{mensagemStatus}</div>
+
+          <div className="linha-tabuleiro">
+            <BotaoTabuleiro conteudo={casas[0]} aoClicar={() => gerenciarClique(0)} />
+            <BotaoTabuleiro conteudo={casas[1]} aoClicar={() => gerenciarClique(1)} />
+            <BotaoTabuleiro conteudo={casas[2]} aoClicar={() => gerenciarClique(2)} />
+          </div>
+
+          <div className="linha-tabuleiro">
+            <BotaoTabuleiro conteudo={casas[3]} aoClicar={() => gerenciarClique(3)} />
+            <BotaoTabuleiro conteudo={casas[4]} aoClicar={() => gerenciarClique(4)} />
+            <BotaoTabuleiro conteudo={casas[5]} aoClicar={() => gerenciarClique(5)} />
+          </div>
+
+          <div className="linha-tabuleiro">
+            <BotaoTabuleiro conteudo={casas[6]} aoClicar={() => gerenciarClique(6)} />
+            <BotaoTabuleiro conteudo={casas[7]} aoClicar={() => gerenciarClique(7)} />
+            <BotaoTabuleiro conteudo={casas[8]} aoClicar={() => gerenciarClique(8)} />
+          </div>
+        </>
+      );
+    }
+
+    // Função que analisa as combinações de vitória
+    function checarVencedor(tabuleiro) {
+      const linhasVitoriosas = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], // Horizontais
+        [0, 3, 6], [1, 4, 7], [2, 5, 8], // Verticais
+        [0, 4, 8], [2, 4, 6]             // Diagonais
+      ];
+
+      for (let i = 0; i < linhasVitoriosas.length; i++) {
+        const [a, b, c] = linhasVitoriosas[i];
+
+        if (
+          tabuleiro[a] &&
+          tabuleiro[a] === tabuleiro[b] &&
+          tabuleiro[a] === tabuleiro[c]
+        ) {
+          return tabuleiro[a];
+        }
+      }
+
+      return null;
+    }
+
+    // Inicialização do React na div #app
+    const elementoRaiz = createRoot(document.getElementById("app"));
+    elementoRaiz.render(
+      <StrictMode>
+        <JogoDaVelha />
+      </StrictMode>
+    );
+  </script>
+
+</body>
+</html>
