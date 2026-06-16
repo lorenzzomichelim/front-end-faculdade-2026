@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spotted UniCesumar</title>
+  
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f5f5f5;
+      font-family: sans-serif;
+    }
+
+    .card-container {
+      width: 320px;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .card-title {
+      font-size: 22px;
+      margin: 0 0 15px 0;
+      color: #333;
+    }
+
+    .avatar-img {
+      border-radius: 50%;
+      object-fit: cover;
+      margin-top: 10px;
+    }
+
+    .link-destaque {
+      color: #0066cc;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .link-destaque:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="app-root"></div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react",
+        "react-dom/client": "https://esm.sh/react-dom/client"
+      }
+    }
+  </script>
+
+  <script type="module">
+    import React from "react";
+    import { createRoot } from "react-dom/client";
+
+    const DATA_CIENTISTA = {
+      nome: 'Hedy Lamarr',
+      fotoUrl: 'https://react.dev/images/docs/scientists/yXOvdOSs.jpg',
+      dimensao: 90,
+    };
+
+    const MensagemSpotted = () => {
+      const urlProfessor = "https://media.licdn.com/dms/image/v2/D4E03AQH4HbJbUB9cKw/profile-displayphoto-scale_200_200/B4EZy0qhH1GYAY-/0/1772557574359?e=2147483647&v=beta&t=pMi_cSSLCiTWDTleDlZalpmZkmn_is8iz753H5_EsQI";
+      
+      return (
+        <p>
+          O professor mais gostoso do Brasil!! <br/> 
+          <a href={urlProfessor} className="link-destaque" target="_blank" rel="noreferrer">
+            VEJA AQUI
+          </a>
+        </p>
+      );
+    };
+
+    const PerfilUsuario = ({ info }) => {
+      return (
+        <section>
+          <h2>{info.nome}</h2>
+          <img
+            className="avatar-img"
+            src={info.fotoUrl}
+            alt={`Foto de ${info.nome}`}
+            style={{
+              width: info.dimensao,
+              height: info.dimensao
+            }}
+          />
+        </section>
+      );
+    };
+
+    const PainelPrincipal = () => {
+      return (
+        <div className="card-container">
+          <h1 className="card-title">Spotted UNICESUMAR</h1>
+          <MensagemSpotted />
+          <hr style={{ border: '0', borderTop: '1px solid #eee', margin: '20px 0' }} />
+          <PerfilUsuario info={DATA_CIENTISTA} />
+        </div>
+      );
+    };
+
+    const container = document.getElementById("app-root");
+    const root = createRoot(container);
+    root.render(<PainelPrincipal />);
+  </script>
+
+</body>
+</html>
